@@ -1,0 +1,41 @@
+name: Cypress E2E Tests with Mochawesome Report
+
+# Trigger pipeline: Berjalan saat ada Push atau Pull Request ke branch main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  cypress-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repositori agar runner mendapatkan kode terbaru
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js di runner environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # Step 3: Install seluruh dependencies dari package.json
+      - name: Install Dependencies
+        run: npm ci
+
+      # Step 4: Jalankan tes Cypress & gabungkan laporan Mochawesome
+      - name: Run Cypress Tests and Generate Report
+        run: npm run test
+
+      # Step 5: Upload HTML Report sebagai Artifact (selalu berjalan, baik test Pass/Fail)
+      - name: Upload Mochawesome Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-mochawesome-report
+          path: cypress/reports/
+          retention-days: 7
