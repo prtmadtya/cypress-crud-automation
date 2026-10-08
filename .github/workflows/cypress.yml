@@ -23,20 +23,20 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # Buat folder laporan sebelum tes berjalan agar tidak error jika folder belum ada
       - name: Create Report Directories
         run: mkdir -p cypress/results cypress/reports
 
-      # Jalankan tes menggunakan browser Electron bawaan Cypress
       - name: Run Cypress Tests
-        run: npx cypress run --browser electron --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true
+        uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --browser electron --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true
 
-      # Merge report Mochawesome
+      # Merge JSON report ke folder reports/ agar tidak terjadi bentrokan file
       - name: Generate Mochawesome Report
         if: always()
         run: |
-          npx mochawesome-merge cypress/results/*.json > cypress/results/mochawesome.json
-          npx marge cypress/results/mochawesome.json -o cypress/reports
+          npx mochawesome-merge cypress/results/*.json > cypress/reports/mochawesome.json
+          npx marge cypress/reports/mochawesome.json -o cypress/reports
 
       - name: Upload Mochawesome Report Artifact
         if: always()
