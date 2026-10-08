@@ -1,0 +1,25 @@
+{
+  "positiveUser": {
+    "name": "Budi Santoso",
+    "job": "QA Engineer"
+  },
+  "updatedUser": {
+    "name": "Budi Santoso Updated",
+    "job": "Lead QA Engineer"
+  },
+  "negativeUsers": [
+    {
+      "testName": "Negative Case 1: Payload dengan string kosong",
+      "payload": {
+        "name": "",
+        "job": ""
+      },
+      "expectedStatus": 400
+    },
+    {
+      "testName": "Negative Case 2: Endpoint tidak ditemukan (404)",
+      "invalidEndpoint": "/api/users/invalid_endpoint",
+      "expectedStatus": 404
+    }
+  ]
+}
