@@ -7,7 +7,12 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome",
+    "clean:reports": "npx rimraf cypress/results cypress/reports",
+    "pretest": "npm run clean:reports",
+    "test": "cypress run --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true",
+    "posttest": "npx mochawesome-merge cypress/results/*.json > cypress/results/mochawesome.json && npx marge cypress/results/mochawesome.json -o cypress/reports"
   },
   "devDependencies": {
     "cypress": "^15.21.1",
