@@ -1,24 +1,18 @@
 {
   "name": "cypress-crud-automation",
   "version": "1.0.0",
-  "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
+  "description": "Cypress E2E CRUD Testing with DDT, Custom Commands, and Mochawesome Report",
   "main": "index.js",
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --browser chrome",
-    "clean:reports": "npx rimraf cypress/results cypress/reports",
-    "pretest": "npm run clean:reports",
-    "test": "cypress run --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true",
-    "posttest": "npx mochawesome-merge cypress/results/*.json > cypress/results/mochawesome.json && npx marge cypress/results/mochawesome.json -o cypress/reports"
+    "cypress:run": "cypress run --browser electron",
+    "test": "cypress run --browser electron --reporter mochawesome --reporter-options reportDir=cypress/results,overwrite=false,html=false,json=true",
+    "report:generate": "mochawesome-merge cypress/results/*.json > cypress/results/mochawesome.json && marge cypress/results/mochawesome.json -o cypress/reports"
   },
   "devDependencies": {
-    "cypress": "^15.21.1",
-    "mochawesome": "^8.1.1",
-    "mochawesome-merge": "^5.1.1",
-    "mochawesome-report-generator": "^6.3.2"
-  },
-  "keywords": []
+    "cypress": "^13.6.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0"
+  }
 }
